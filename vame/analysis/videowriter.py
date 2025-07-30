@@ -13,7 +13,7 @@ import os
 from pathlib import Path
 import numpy as np
 import cv2 as cv
-import tqdm
+import tqdm #to show a progress
 
 from vame.util.auxiliary import read_config
 
@@ -25,15 +25,16 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
     if flag == "community":
         print("Community videos getting created for "+file+" ...")
         labels = np.load(os.path.join(path_to_file,"community",'community_label_'+file+'.npy'))
-    capture = cv.VideoCapture(os.path.join(cfg['project_path'],"videos",file+videoType))
+    capture = cv.VideoCapture(os.path.join(cfg['project_path'],"videos",file+'.avi'))
 
     if capture.isOpened():
         width  = capture.get(cv.CAP_PROP_FRAME_WIDTH)
         height = capture.get(cv.CAP_PROP_FRAME_HEIGHT)
 #        print('width, height:', width, height)
 
-        fps = 25#capture.get(cv.CAP_PROP_FPS)
-#        print('fps:', fps)
+        fps = capture.get(cv.CAP_PROP_FPS)
+       # fps = 25#capture.get(cv.CAP_PROP_FPS)
+        print('fps:', fps)
 
     cluster_start = cfg['time_window'] / 2
     for cluster in range(n_cluster):
@@ -42,9 +43,9 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
         cluster_lbl = cluster_lbl[0]
         
         if flag == "motif":
-            output = os.path.join(path_to_file,"cluster_videos",file+'-motif_%d.avi' %cluster)
+            output = os.path.join(path_to_file,"cluster_videos",file+'-motif_%d.mp4' %cluster)
         if flag == "community":
-            output = os.path.join(path_to_file,"community_videos",file+'-community_%d.avi' %cluster)
+            output = os.path.join(path_to_file,"community_videos",file+'-community_%d.mp4' %cluster)
             
         video = cv.VideoWriter(output, cv.VideoWriter_fourcc('M','J','P','G'), fps, (int(width), int(height)))
 
@@ -57,13 +58,30 @@ def get_cluster_vid(cfg, path_to_file, file, n_cluster, videoType, flag):
             idx = cluster_lbl[num]
             capture.set(1,idx+cluster_start)
             ret, frame = capture.read()
+            #addition
+            if not ret:
+                 continue 
+            text = 'Frame  ' + str(idx+cluster_start)
+            font = cv.FONT_HERSHEY_SIMPLEX
+            font_scale = 4
+            thickness = 8
+            color = (0, 0, 255)  # Red text (BGR format)
+            
+            (text_width, text_height), _ = cv.getTextSize(text, font, font_scale, thickness)
+            frame_height, frame_width = frame.shape[:2]
+            position = (
+                (frame_width - text_width) // 2,
+                (frame_height + text_height) // 2
+                )
+            cv.putText(frame, text, position, font, font_scale, color, thickness, cv.LINE_AA)
+            
             video.write(frame)
 
         video.release()
     capture.release()
 
 
-def motif_videos(config, videoType='.mp4'):
+def motif_videos(config, videoType='.avi'):
     config_file = Path(config).resolve()
     cfg = read_config(config_file)
     model_name = cfg['model_name']

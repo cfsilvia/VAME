@@ -10,5 +10,7 @@ Licensed under GNU General Public License v3.0
 """
 import sys
 sys.dont_write_bytecode = True
+sys.path.insert(0, r"F:\SilviaData\ScriptOnGithub\VAME")
 
 from vame.util.auxiliary import *
+from vame.util.csv_to_npy import csv_to_numpy

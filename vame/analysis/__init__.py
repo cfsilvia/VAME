@@ -10,6 +10,7 @@ Licensed under GNU General Public License v3.0
 """
 import sys
 sys.dont_write_bytecode = True
+sys.path.insert(0, r"F:\SilviaData\ScriptOnGithub\VAME")
 
 from vame.analysis.pose_segmentation import pose_segmentation
 from vame.analysis.videowriter import motif_videos, community_videos
