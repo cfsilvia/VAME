@@ -1,9 +1,12 @@
 import sys
 #sys.path.insert(0, r"F:\SilviaData\ScriptOnGithub\VAME")
 sys.path.insert(0, r"D:\Silvia\ScriptOnGithub\VAME")
-import vame
+import vame_silvia
 from create_file_for_vame import create_file_for_vame
 from etoghram import etoghram
+
+
+
 
 
 def main_menu(data):
@@ -48,7 +51,6 @@ def main_menu(data):
             #do umap over the latent space
              obj = vame.umap_visualization_silvia(data['config'])
              obj("motif") #argument could be: blank nothing or "motif"
-             
             
 
         case _:

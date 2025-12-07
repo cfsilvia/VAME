@@ -10,7 +10,7 @@ Licensed under GNU General Public License v3.0
 """
 import sys
 sys.dont_write_bytecode = True
-sys.path.insert(0, r"F:\SilviaData\ScriptOnGithub\VAME")
+sys.path.insert(0, r"D:\SilviaData\ScriptOnGithub\VAME")
 
 from vame.analysis.pose_segmentation import pose_segmentation
 from vame.analysis.videowriter import motif_videos, community_videos
@@ -18,4 +18,8 @@ from vame.analysis.community_analysis import community
 from vame.analysis.umap_visualization import visualization
 from vame.analysis.generative_functions import generative_model
 from vame.analysis.gif_creator import gif
+from vame.analysis.cluster_latent_space_silvia import cluster_latent_space_silvia
+from vame.analysis.umap_visualization_silvia import  umap_visualization_silvia
+
+
 

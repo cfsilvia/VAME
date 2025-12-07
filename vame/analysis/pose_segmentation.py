@@ -84,7 +84,7 @@ def embedd_latent_vectors(cfg, files, model, fixed):
         data = np.load(os.path.join(project_path,'data',file,file+'-PE-seq-clean.npy'))
         latent_vector_list = []
         with torch.no_grad(): 
-            for i in tqdm.tqdm(range(data.shape[1] - temp_win)):
+            for i in tqdm.tqdm(range(data.shape[1] - temp_win)):#this is a progress-bar loop over all possible window
             # for i in tqdm.tqdm(range(10000)):
                 data_sample_np = data[:,i:temp_win+i].T
                 data_sample_np = np.reshape(data_sample_np, (1, temp_win, num_features))

@@ -212,7 +212,7 @@ def traindata_fixed(cfg, files, testfraction, num_features, savgol_filter, check
         data = np.load(path_to_file)
         X_mean = np.mean(data,axis=None)
         X_std = np.std(data, axis=None)
-        X_z = (data.T - X_mean) / X_std
+        X_z = (data.T - X_mean) / X_std #normalize the data for each feature
         
         if check_parameter == True:
             X_z_copy = X_z.copy()
@@ -267,7 +267,7 @@ def traindata_fixed(cfg, files, testfraction, num_features, savgol_filter, check
 def create_trainset(config, check_parameter=False):
     config_file = Path(config).resolve()
     cfg = read_config(config_file)
-    legacy = cfg['legacy']
+    legacy = cfg['legacy'] #it is false
     fixed = cfg['egocentric_data']
     
     if not os.path.exists(os.path.join(cfg['project_path'],'data','train',"")):
